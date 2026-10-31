@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CopilotDiffPersistence">
+    <option name="pendingDiffs">
+      <map>
+        <entry key="/tmp/final_check.sh">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="/tmp/final_check.sh" />
+              <option name="newFile" value="true" />
+              <option name="updatedContent" value="#!/bin/bash&#10;ADB=/home/boaz-sagini/Android/Sdk/platform-tools/adb&#10;S=&quot;$ADB -s emulator-5554&quot;&#10;P=com.example.myapplication&#10;&#10;$S exec-out screencap -p &gt; /tmp/final_main.png&#10;python3 /tmp/dark_analyze.py /tmp/final_main.png&#10;&#10;echo &quot;overlay windows: $($S shell dumpsys window windows | grep -cE 'Window #[0-9]+ Window\{[0-9a-f]+ u0 com\.example\.myapplication\}')&quot;&#10;echo &quot;crash lines: $($S logcat -d -b crash | wc -l)&quot;&#10;echo &quot;system night mode: $($S shell cmd uimode night)&quot;&#10;echo &quot;overlay permission: $($S shell appops get $P SYSTEM_ALERT_WINDOW | cut -c1-40)&quot;&#10;echo &quot;installed: $($S shell dumpsys package $P | grep lastUpdateTime)&quot;&#10;&#10;echo &quot;--- git status&quot;&#10;cd /home/boaz-sagini/AndroidStudioProjects/TestingAgain &amp;&amp; git --no-pager status --short&#10;&#10;# Tidy up temp files created during testing.&#10;rm -f /tmp/e2e_*.py /tmp/e2e_*.png /tmp/dbg_*.png /tmp/dark_* /tmp/final_main.png /tmp/manual.png \&#10;      /tmp/persist.sh /tmp/recents.sh /tmp/recents2.sh /tmp/swipeaway.sh /tmp/overlay_probe.sh \&#10;      /tmp/monitor*.sh /tmp/monitor*.log /tmp/full.log /tmp/t.xml&#10;rm -rf /tmp/__pycache__&#10;echo &quot;temp files cleaned&quot;&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="/tmp/restore_finish.sh">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="/tmp/restore_finish.sh" />
+              <option name="newFile" value="true" />
+              <option name="updatedContent" value="#!/bin/bash&#10;ADB=/home/boaz-sagini/Android/Sdk/platform-tools/adb&#10;S=&quot;$ADB -s emulator-5554&quot;&#10;P=com.jubileegroup.jbuzz&#10;cd /home/boaz-sagini/AndroidStudioProjects/TestingAgain || exit 1&#10;&#10;# main screen is still dark? (screenshot from the release smoke test)&#10;python3 - &lt;&lt;'EOF'&#10;from PIL import Image&#10;im = Image.open(&quot;/tmp/restore_main.png&quot;).convert(&quot;RGB&quot;)&#10;px = list(im.getdata())&#10;dark = sum(1 for r, g, b in px if r &lt; 40 and g &lt; 40 and b &lt; 40)&#10;print(&quot;main screen: %.1f %% of pixels are dark&quot; % (100.0 * dark / len(px)))&#10;EOF&#10;&#10;# leave the debug build installed, as it was&#10;$S uninstall $P &gt; /dev/null&#10;$S install -r app/build/outputs/apk/debug/app-debug.apk | tail -1&#10;$S shell appops set $P SYSTEM_ALERT_WINDOW allow&#10;$S shell pm grant $P android.permission.POST_NOTIFICATIONS&#10;$S shell am force-stop $P&#10;echo &quot;debuggable: $($S shell dumpsys package $P | grep -c 'DEBUGGABLE')&quot;&#10;&#10;# temp files from this check&#10;rm -f /tmp/restore_check.py /tmp/restore_check_release.py /tmp/compare_ref.py /tmp/cmp_ref.png /tmp/cmp_ours.png \&#10;      /tmp/restore_main.png /tmp/restore_card.png /tmp/restore_ui.xml /tmp/restore_build.log /tmp/restore_connected.log \&#10;      /tmp/restore_release.log&#10;rm -rf /tmp/__pycache__&#10;&#10;echo &quot;--- git status&quot;&#10;git --no-pager status --short | grep -v '^ D app/src/main/res/mipmap' &#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

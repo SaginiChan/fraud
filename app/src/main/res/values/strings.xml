@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">J Buzz</string>
+
+    <!-- Foreground service notification (OverlayService) -->
+    <string name="overlay_channel_name">Notification card</string>
+    <string name="overlay_notification_title">J Buzz</string>
+    <string name="overlay_notification_text">A notification card is showing</string>
 </resources>
+

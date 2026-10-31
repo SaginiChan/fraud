@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.MyApplication.Starting" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@android:color/white</item>
+    <style name="Theme.JBuzz.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/dark_background</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/jubilee_group_logo</item>
-        <item name="postSplashScreenTheme">@style/Theme.MyApplication</item>
+        <item name="postSplashScreenTheme">@style/Theme.JBuzz</item>
     </style>
 
-    <style name="Theme.MyApplication" parent="android:Theme.Material.Light.NoActionBar" />
+    <!-- Dark window theme: the window shows this background until the first Compose frame is drawn. -->
+    <style name="Theme.JBuzz" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowBackground">@color/dark_background</item>
+    </style>
 </resources>
